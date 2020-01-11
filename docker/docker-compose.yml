@@ -1,0 +1,37 @@
+version: '3'
+
+volumes:
+
+  rds-pg-data: {}
+  rds-rabbitmq-data: {}
+
+services:
+
+  rds-postgres:
+    image: sameersbn/postgresql:10-1
+    restart: always
+    environment:
+      DB_NAME: rds-admin,rds-query
+      DB_USER: dev-rds
+      DB_PASS: dev-rds
+      PG_PASSWORD: totvs@123
+    ports:
+      - 5432:5432
+    volumes:
+      - rds-pg-data:/var/lib/postgresql
+
+  rds-pg-admin:
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: dev-rds@totvs.com.br
+      PGADMIN_DEFAULT_PASSWORD: dev-rds
+    ports:
+      - 8080:80
+
+  rds-rabbitmq:
+    image: rabbitmq:3.7.7-management
+    volumes:
+      - rds-rabbitmq-data:/var/lib/rabbitmq
+    ports:
+      - 15672:15672
+      - 5672:5672
