@@ -1,0 +1,45 @@
+spring:
+
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/rds-admin
+    username: postgres
+    password: totvs@123
+
+  flyway:
+    schemas: public
+
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQL95Dialect
+    hibernate:
+      naming:
+        implicit-strategy: org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy
+        physical-strategy: org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy
+    properties:      
+      hibernate:
+        jdbc:
+          lob:
+            non_contextual_creation: true # https://github.com/spring-projects/spring-boot/issues/12007
+        hbm2ddl:
+          auto: update # "none"
+        show_sql: true
+        format_sql: true
+  cloud:
+    stream:
+      defaultBinder: rabbit1
+      bindings:
+        starship-input:
+          destination: starship-input
+          group: requests
+        starship-output:
+          destination: starship-input
+      binders:
+        rabbit1:
+          type: rabbit
+          environment:
+            spring:
+              rabbit:
+                host: localhost
+
+server:
+  port: 8888
