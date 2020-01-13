@@ -11,7 +11,7 @@ import lombok.Getter;
 public class CriarTurmaCommandDto {
 
 	@NotNull(message = "{CriarTurmaCommandDto.nome.NotNull}")
-	@Size(min = 8, message = "{CriarAjudanteCommandDto.nome.minSize}")
+	@Size(min = 8, max = 120, message = "{CriarTurmaCommandDto.nome.Size}")
 	private String nome;
 
 	@NotNull(message = "{CriarTurmaCommandDto.anoLetivo.NotNull}")
