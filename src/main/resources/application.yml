@@ -21,25 +21,35 @@ spring:
           lob:
             non_contextual_creation: true # https://github.com/spring-projects/spring-boot/issues/12007
         hbm2ddl:
-          auto: update # "none"
+          auto: "none"
         show_sql: true
         format_sql: true
+
   cloud:
     stream:
-      defaultBinder: rabbit1
+      default-binder: rabbit1
       bindings:
-        starship-input:
-          destination: starship-input
+        rds-input-events:       
+          destination: rds-input-events
           group: requests
-        starship-output:
-          destination: starship-input
+        rds-output-events:
+          destination: rds-input-events
+        tjf-messaging-error-input:
+          destination: rds-errors
+          group: errors
+        tjf-messaging-error-output:
+          destination: rds-errors
+          group: errors
       binders:
         rabbit1:
           type: rabbit
           environment:
             spring:
-              rabbit:
+              rabbitmq:
                 host: localhost
+                port: 5672
+                username: guest
+                password: guest
 
 server:
   port: 8888

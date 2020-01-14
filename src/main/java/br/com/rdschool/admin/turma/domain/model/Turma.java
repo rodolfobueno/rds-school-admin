@@ -26,7 +26,7 @@ public class Turma {
 	@AggregateIdentifier
 	private TurmaId id;
 
-	private String nome;
+	private String descricao;
 	private Integer anoLetivo;
 	private Integer periodoLetivo;
 	private Integer numeroVagas;
@@ -35,7 +35,7 @@ public class Turma {
 
 	@Builder
 	public Turma(@NotNull TurmaId id, 
-			@NotNull String nome, 
+			@NotNull String descricao, 
 			@NotNull Integer anoLetivo, 
 			@NotNull Integer periodoLetivo,
 			@NotNull Integer numeroVagas, 
@@ -43,7 +43,7 @@ public class Turma {
 			Set<DisciplinaId> disciplinasId) {
 		super();
 		this.id = id;
-		this.nome = nome;
+		this.descricao = descricao;
 		this.anoLetivo = anoLetivo;
 		this.periodoLetivo = periodoLetivo;
 		this.numeroVagas = numeroVagas;

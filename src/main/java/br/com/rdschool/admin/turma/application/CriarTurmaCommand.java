@@ -7,7 +7,7 @@ import lombok.Getter;
 @Data(staticConstructor = "of")
 public final class CriarTurmaCommand {
 
-	private final String nome;
+	private final String descricao;
 	private final Integer anoLetivo;
 	private final Integer periodoLetivo;
 	private final Integer numeroVagas;

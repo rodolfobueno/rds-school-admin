@@ -10,9 +10,9 @@ import lombok.Getter;
 @AllArgsConstructor
 public class CriarTurmaCommandDto {
 
-	@NotNull(message = "{CriarTurmaCommandDto.nome.NotNull}")
-	@Size(min = 8, max = 120, message = "{CriarTurmaCommandDto.nome.Size}")
-	private String nome;
+	@NotNull(message = "{CriarTurmaCommandDto.descricao.NotNull}")
+	@Size(min = 8, max = 160, message = "{CriarTurmaCommandDto.descricao.Size}")
+	private String descricao;
 
 	@NotNull(message = "{CriarTurmaCommandDto.anoLetivo.NotNull}")
 	private Integer anoLetivo;

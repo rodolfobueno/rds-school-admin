@@ -5,6 +5,8 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import br.com.rdschool.admin.amqp.RDSPublisher;
+import br.com.rdschool.admin.turma.amqp.events.TurmaCriadaEvent;
 import br.com.rdschool.admin.turma.domain.model.Turma;
 import br.com.rdschool.admin.turma.domain.model.TurmaDomainRepository;
 import br.com.rdschool.admin.turma.domain.model.TurmaId;
@@ -16,14 +18,14 @@ public class TurmaApplicationService {
 	@Autowired
 	private TurmaDomainRepository turmaRepository;
 	
-//	@Autowired
-//	private YMSPublisher ymsPublisher;
+	@Autowired
+	private RDSPublisher publisher;
 	
 	public TurmaId handle(final CriarTurmaCommand cmd) {
 		
-		Turma ajudante = Turma.builder()
+		Turma turma = Turma.builder()
 				.id(TurmaId.generate())
-				.nome(cmd.getNome())
+				.descricao(cmd.getDescricao())
 				.anoLetivo(cmd.getAnoLetivo())
 				.periodoLetivo(cmd.getPeriodoLetivo())
 				.numeroVagas(cmd.getNumeroVagas())
@@ -32,16 +34,19 @@ public class TurmaApplicationService {
 		//if (this.ajudanteRepository.checkIfExistsByCpf(cmd.getCpf().getNumero()))
 			//throw new YMSCpfDoAjudanteDuplicadoException(cmd.getCpf().getNumero());
 		
-		this.turmaRepository.insert(ajudante);
+		this.turmaRepository.insert(turma);
 		
-//		ymsPublisher.publish(AjudanteCriadoEvent
-//								.builder()
-//								.ajudanteId(ajudante.getId().toString())
-//								.nome(ajudante.getNome())
-//								.cpf(ajudante.getCpf().getNumero())
-//								.arquivoCpf(ajudante.getCpf().getArquivo())
-//								.build());
+		publisher.publish(TurmaCriadaEvent
+								.builder()
+								.turmaId(turma.getId().toString())
+								.descricao(turma.getDescricao())
+								.anoLetivo(turma.getAnoLetivo())
+								.periodoLetivo(turma.getPeriodoLetivo())
+								.numeroVagas(turma.getNumeroVagas())
+								.alunosId(turma.getAlunosId())
+								.disciplinasId(turma.getDisciplinasId())
+								.build());
 		
-		return ajudante.getId();
+		return turma.getId();
 	}
 }

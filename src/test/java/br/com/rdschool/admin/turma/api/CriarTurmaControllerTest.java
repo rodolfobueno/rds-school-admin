@@ -56,14 +56,14 @@ public class CriarTurmaControllerTest {
 					.andReturn();
 		
 		assertThat(result.getResponse().getContentAsString()).contains("CriarTurmaException");
-		assertThat(result.getResponse().getContentAsString()).contains("CriarTurmaCommandDto.nome.NotNull");
+		assertThat(result.getResponse().getContentAsString()).contains("CriarTurmaCommandDto.descricao.NotNull");
 		assertThat(result.getResponse().getContentAsString()).contains("CriarTurmaCommandDto.anoLetivo.NotNull");
 		assertThat(result.getResponse().getContentAsString()).contains("CriarTurmaCommandDto.numeroVagas.NotNull");
 		assertThat(result.getResponse().getContentAsString()).contains("CriarTurmaCommandDto.periodoLetivo.NotNull");
 	}
 	
 	@Test
-	public void deveValidarTamanhoMinimoDeNomeAoCriarTurma() throws Exception {
+	public void deveValidarTamanhoMinimoDeDescricaoAoCriarTurma() throws Exception {
 		CriarTurmaCommandDto dto = new CriarTurmaCommandDto("nom", 2012, 1, 1);
 		
 		MvcResult result = this.mockMvc
@@ -74,7 +74,7 @@ public class CriarTurmaControllerTest {
 					.andReturn();
 		
 		assertThat(result.getResponse().getContentAsString()).contains("CriarTurmaException");
-		assertThat(result.getResponse().getContentAsString()).contains("CriarTurmaCommandDto.nome.Size");
+		assertThat(result.getResponse().getContentAsString()).contains("CriarTurmaCommandDto.descricao.Size");
 	}
 	
 	

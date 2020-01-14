@@ -48,7 +48,7 @@ public class TurmaController {
 		});
 
 		var cmd = CriarTurmaCommand
-				.of(dto.getNome(), dto.getAnoLetivo(), dto.getNumeroVagas(), dto.getPeriodoLetivo());
+				.of(dto.getDescricao(), dto.getAnoLetivo(), dto.getNumeroVagas(), dto.getPeriodoLetivo());
 
 
 		TurmaId id = service.handle(cmd);
