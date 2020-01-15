@@ -1,11 +1,16 @@
 package br.com.rdschool.admin.turma.application;
 
+import java.util.Set;
+import java.util.stream.Collectors;
+
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import br.com.rdschool.admin.aluno.domain.model.AlunoId;
 import br.com.rdschool.admin.amqp.RDSPublisher;
+import br.com.rdschool.admin.disciplina.domain.model.DisciplinaId;
 import br.com.rdschool.admin.turma.amqp.events.TurmaCriadaEvent;
 import br.com.rdschool.admin.turma.domain.model.Turma;
 import br.com.rdschool.admin.turma.domain.model.TurmaDomainRepository;
@@ -29,6 +34,8 @@ public class TurmaApplicationService {
 				.anoLetivo(cmd.getAnoLetivo())
 				.periodoLetivo(cmd.getPeriodoLetivo())
 				.numeroVagas(cmd.getNumeroVagas())
+				.disciplinasId(disciplinas(cmd.getDisciplinasId()))
+				.alunosId(alunos(cmd.getAlunosId()))
 				.build();
 		
 		//if (this.ajudanteRepository.checkIfExistsByCpf(cmd.getCpf().getNumero()))
@@ -49,4 +56,15 @@ public class TurmaApplicationService {
 		
 		return turma.getId();
 	}
+	
+	private Set<DisciplinaId> disciplinas(Set<String> disciplinasIdStr) {
+		return (disciplinasIdStr == null) ? null
+				: disciplinasIdStr.stream().map(f -> DisciplinaId.fromString(f)).collect(Collectors.toSet());
+	}
+	
+	private Set<AlunoId> alunos(Set<String> alunosIdStr) {
+		return (alunosIdStr == null) ? null
+				: alunosIdStr.stream().map(f -> AlunoId.fromString(f)).collect(Collectors.toSet());
+	}
+
 }

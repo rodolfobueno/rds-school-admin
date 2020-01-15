@@ -47,8 +47,13 @@ public class TurmaController {
 			throw new CriarTurmaException(violations);
 		});
 
-		var cmd = CriarTurmaCommand
-				.of(dto.getDescricao(), dto.getAnoLetivo(), dto.getNumeroVagas(), dto.getPeriodoLetivo());
+		CriarTurmaCommand cmd = CriarTurmaCommand.of(
+				dto.getDescricao(),
+				dto.getAnoLetivo(), 
+				dto.getNumeroVagas(), 
+				dto.getPeriodoLetivo(),
+				dto.getDisciplinasId(),
+				dto.getAlunosId());
 
 
 		TurmaId id = service.handle(cmd);

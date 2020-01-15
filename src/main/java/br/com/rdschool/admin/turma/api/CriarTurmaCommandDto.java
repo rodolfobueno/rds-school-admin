@@ -1,5 +1,7 @@
 package br.com.rdschool.admin.turma.api;
 
+import java.util.Set;
+
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -22,5 +24,9 @@ public class CriarTurmaCommandDto {
 
 	@NotNull(message = "{CriarTurmaCommandDto.numeroVagas.NotNull}")
 	private Integer numeroVagas;
+	
+	private Set<String> alunosId;
+	
+	private Set<String> disciplinasId;
 
 }

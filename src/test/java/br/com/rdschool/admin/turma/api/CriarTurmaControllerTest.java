@@ -3,6 +3,10 @@ package br.com.rdschool.admin.turma.api;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import java.util.UUID;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
 import javax.transaction.Transactional;
 
 import org.junit.Test;
@@ -35,7 +39,21 @@ public class CriarTurmaControllerTest {
 	@Test
 	public void deveCriarTurma() throws Exception{
 		CriarTurmaCommandDto dto = new CriarTurmaCommandDto(
-				"Ajudante test controller", 2020, 1, 1);
+				"Ajudante test controller", 2020, 1, 1, null, null);
+		
+		this.mockMvc
+				.perform(MockMvcRequestBuilders.post(TurmaController.PATH)
+				.contentType(MediaType.APPLICATION_JSON_VALUE)
+				.content(TestUtils.objectToJson(dto)))
+				.andExpect(status().is2xxSuccessful());
+	}
+	
+	@Test
+	public void deveCriarTurmaComAlunosEDisciplinas() throws Exception{
+		CriarTurmaCommandDto dto = new CriarTurmaCommandDto(
+				"Ajudante test controller", 2020, 1, 1, 
+				Stream.of(UUID.randomUUID().toString(), UUID.randomUUID().toString()).collect(Collectors.toSet()), 
+				Stream.of(UUID.randomUUID().toString(), UUID.randomUUID().toString()).collect(Collectors.toSet()));
 		
 		this.mockMvc
 				.perform(MockMvcRequestBuilders.post(TurmaController.PATH)
@@ -46,7 +64,7 @@ public class CriarTurmaControllerTest {
 	
 	@Test
 	public void naoDeveCriarTurmaComInformacoesDtoNulas() throws Exception {
-		CriarTurmaCommandDto dto = new CriarTurmaCommandDto(null, null, null, null);
+		CriarTurmaCommandDto dto = new CriarTurmaCommandDto(null, null, null, null, null, null);
 		
 		MvcResult result = this.mockMvc
 					.perform(MockMvcRequestBuilders.post(TurmaController.PATH)
@@ -64,7 +82,7 @@ public class CriarTurmaControllerTest {
 	
 	@Test
 	public void deveValidarTamanhoMinimoDeDescricaoAoCriarTurma() throws Exception {
-		CriarTurmaCommandDto dto = new CriarTurmaCommandDto("nom", 2012, 1, 1);
+		CriarTurmaCommandDto dto = new CriarTurmaCommandDto("nom", 2012, 1, 1, null, null);
 		
 		MvcResult result = this.mockMvc
 					.perform(MockMvcRequestBuilders.post(TurmaController.PATH)
